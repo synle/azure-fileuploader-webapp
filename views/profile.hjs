@@ -1,0 +1,197 @@
+<!-- views/profile.ejs -->
+<!doctype html>
+<html>
+<head>
+    <title>Sy Le - File Uploader</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+</head>
+<body>
+<div class="container-fluid">
+
+    <script>
+        var current_user = {
+            id : "{{ user.id }}",
+            email : "{{ user.email }}",
+            firstName : "{{ user.firstName }}",
+            lastName : "{{ user.lastName }}",
+        }
+    </script>
+
+    <div class="text-center">
+        <h1><span class="fa fa-anchor"></span> Sy Le - File Uploader</h1>
+        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+        <hr />
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <button class="btn btn-sm filelist-container my-app-nav-item" onclick="PageNavigator.renderList()">
+              <i class="fa fa-files-o" aria-hidden="true"></i>
+              Your Files
+            </button>
+            <button class="btn btn-sm upload-new-file-container my-app-nav-item" onclick="PageNavigator.renderNewFile()">
+              <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+              Upload New File
+            </button>
+
+            <hr />
+        </div>
+    </div>
+
+    <div class="row">
+
+        <!-- LOCAL INFORMATION -->
+        <div class="col-sm-2">
+            <div class="panel panel-default">
+                <div class="panel-heading"><span class="fa fa-user"></span> User Profile</div>
+                <div class="panel-body">
+                    <strong>user_id:</strong><br />
+                    {{ user.id }}<br>
+                    <strong>email:</strong><br />
+                    {{ user.email }}<br>
+                    <strong>first_name:</strong><br />
+                    {{ user.firstName }}<br />
+                    <strong>last_name:</strong><br />
+                    {{ user.lastName }}<br />
+                </div>
+              </div>
+        </div>
+
+
+        <!-- Stuffs -->
+        <div class="col-sm-10">
+            <div class="panel-group">
+              <div class="filelist-container my-app-container panel panel-primary hidden">
+                <div class="panel-heading">File List</div>
+                <div class="panel-body" style="overflow: auto">
+                    <div class="mb">
+                        <button class="btn btn-sm btn-info" onclick="PageNavigator.renderListRefresh()">
+                          <i class="fa fa-refresh" aria-hidden="true"></i>
+                          Refresh
+                        </button>
+                    </div>
+
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                            <th>File Name</th>
+                            <th>Description</th>
+                            <th>Author</th>
+                            <th>Upload Time</th>
+                            <th>Updated Time</th>
+                            <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="file-list-table-content"></tbody>
+                    </table>
+                </div>
+              </div>
+
+
+
+              <div class="upload-new-file-container my-app-container panel panel panel-primary hidden">
+                <div class="panel-heading">New File</div>
+                <div class="panel-body">
+                    <div class="form-container">
+                      <form id="submit-create-form" action="/file/upload" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                          <label>File Uploader:</label>
+                          <input type="file" class="form-control" id="createFile" data-label="File Uploader" name="createFile" />
+                        </div>
+                        <div class="form-group">
+                          <label>File Name:</label>
+                          <input type="text" class="form-control" id="createFileName" data-label="File Name" name="fileName" />
+                        </div>
+                        <div class="form-group">
+                          <label>Description:</label>
+                          <input type="text" class="form-control" id="createDescription" data-label="File Description" name="fileDescription" />
+                        </div>
+                        <div class="form-group">
+                          <label>Author:</label>
+                          <input type="text" class="form-control disabled" id="createAuthor" readonly value='{{ user.firstName }} {{ user.lastName }}'  />
+                        </div>
+                      </form>
+
+                      <div>
+                        <button id="btn-submit-create-form" class="btn btn-sm btn-primary" input="submit">Upload</button>
+                        <button class="btn btn-sm btn-default" onclick="PageNavigator.renderList()">Cancel</button>
+                      </div>
+                    </div>
+                </div>
+              </div>
+
+
+
+
+
+
+              <div class="upload-edit-file-container my-app-container panel panel panel-primary hidden">
+                <div class="panel-heading">Edit File</div>
+                <div class="panel-body">
+                    <div class="form-container">
+                      <input type="hidden" id="updateFileId"   />
+                      <div class="form-group">
+                        <label>File Name:</label>
+                        <input type="text" class="form-control" data-label="File Name" id="updateFileName" />
+                      </div>
+                      <div class="form-group">
+                        <label>Description:</label>
+                        <input type="text" class="form-control" data-label="File Description" id="updateDescription" />
+                      </div>
+                      <div class="form-group">
+                        <label>Path:</label>
+                        <input type="text" class="form-control disabled" id="updatePath" readonly />
+                      </div>
+                      <div class="form-group">
+                        <label>Author:</label>
+                        <input type="text" class="form-control disabled" id="updateAuthor" readonly value='{{ user.firstName }} {{ user.lastName }}'  />
+                      </div>
+
+                      <div class="form-group">
+                        <label>Uploaded Time:</label>
+                        <input type="text" class="form-control disabled" id="updateUploadedTime" readonly />
+                      </div>
+
+                      <div class="form-group">
+                        <label>Updated Time:</label>
+                        <input type="text" class="form-control disabled" id="updateUpdatedTime" readonly />
+                      </div>
+
+
+                      <div class="clearfix">
+                        <button id="btn-submit-update-form" class="btn btn-sm btn-primary">Save</button>
+
+                        <button class="btn btn-sm btn-default" onclick="PageNavigator.renderList()">Cancel</button>
+
+                        <button id="updateDownloadFile" class="btn btn-sm btn-info row-download-file-item pull-right">
+                          <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                          Download
+                        </button>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="/javascript/external.js"></script>
+    <script src="/javascript/profile.js"></script>
+</div>
+</body>
+</html>
