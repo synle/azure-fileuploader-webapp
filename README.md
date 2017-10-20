@@ -1,13 +1,23 @@
 # azure-fileuploader-webapp
-Author: Sy Le
+- Student: Sy Le (https://www.linkedin.com/in/syle1021/)
+- University Name: http://www.sjsu.edu/
+- Course: Cloud Technologies (http://info.sjsu.edu/web-dbgen/catalog/courses/CMPE281.html)
+- Professor Sanjay Garje (https://www.linkedin.com/in/sanjaygarje/)
+- ISA: Divyankitha Urs (https://www.linkedin.com/in/divyankithaurs/)
 
 
-## Description
+## Description / Project Introduction
 This is a web application that allows people to upload files to the server. This app is based on Azure Cloud, and uses Azure Storage to store the blob you uploaded, while maintaining a simple yet plain record of those files using Database.
 
 
 ## Live Demo
 http://fileupload.syleapp.com
+
+## Sample Demo Screenshots
+![alt text](https://github.com/synle/azure-fileuploader-webapp/raw/master/Screen%20Shot%202017-10-20%20at%209.15.39%20AM.png "Sample Screenshot")
+![alt text](https://github.com/synle/azure-fileuploader-webapp/raw/master/Screen%20Shot%202017-10-20%20at%209.15.13%20AM.png "Sample Screenshot")
+![alt text](https://github.com/synle/azure-fileuploader-webapp/raw/master/Screen%20Shot%202017-10-20%20at%209.15.19%20AM.png "Sample Screenshot")
+
 
 ## Setup
 ### Requirements
@@ -24,6 +34,7 @@ http://fileupload.syleapp.com
 
 ### To start the app
 Please set up Azure SQL, Azure Redis Cache, Azure file storage and replace the following params with your setup...
+
 
 #### Starting the web server
 ```
