@@ -10,9 +10,6 @@
 This is a web application that allows people to upload files to the server. This app is based on Azure Cloud, and uses Azure Storage to store the blob you uploaded, while maintaining a simple yet plain record of those files using Database.
 
 
-## Live Demo
-http://fileupload.syleapp.com
-
 ## Sample Demo Screenshots
 ![alt text](https://github.com/synle/azure-fileuploader-webapp/raw/master/Screen%20Shot%202017-10-20%20at%209.15.39%20AM.png "Sample Screenshot")
 ![alt text](https://github.com/synle/azure-fileuploader-webapp/raw/master/Screen%20Shot%202017-10-20%20at%209.15.13%20AM.png "Sample Screenshot")
